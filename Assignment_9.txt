@@ -1,17 +1,18 @@
 import javax.swing.*;
 
+
 public class Foothill
 {
    public static void main (String[] args)
    {
       Student[] myFemaleStudents = { new Student("huynh","holly", 33), 
-         new Student("mehraban","trixie", 875),
-         new Student("ferguson","mia", 925), 
-         new Student("martinez","marina", 900),
-         new Student("stitt","anna", 999), 
-         new Student("cirit","dilara", 754),
-         new Student("robert","christina", 8645), 
-         new Student("prokopakis","kira", 247),
+         new Student("mehraban","kristen", 875),
+         new Student("ferguson","jen", 925), 
+         new Student("harrison","marina", 900),
+         new Student("mcgregor","anna", 999), 
+         new Student("swift","wendy", 754),
+         new Student("johnson","christina", 8645), 
+         new Student("smith","kira", 247),
          new Student("itabashi","mina", 122), 
          new Student("4ziedzich","alexis", 321),
          new Student("ly","jessica", 84), 
@@ -21,6 +22,7 @@ public class Foothill
          new Student("glausi","julia", 295), 
          new Student("cabrera","alyssa", 254),
       };
+
 
       Student[] myMaleStudents = { new Student("chester","cariad", 964), 
             new Student("vu","khoi", 45),
@@ -77,11 +79,13 @@ public class Foothill
    }
 }
 
+
 class Student
 {
    private String lastName;
    private String firstName;
    private int totalPoints;
+
 
    public static final int ZERO = 0;
    public static final String DEFAULT_NAME = "zz-error";
@@ -92,6 +96,7 @@ class Student
    public static final int SORT_BY_POINTS = 108;
    
    private static int sortKey = SORT_BY_LAST;
+
 
    // constructor requires parameters - no default supplied
    public Student( String last, String first, int points)
@@ -104,9 +109,11 @@ class Student
          totalPoints = DEFAULT_POINTS;   
    }
 
+
    public String getLastName() { return lastName; }
    public String getFirstName() { return firstName; } 
    public int getTotalPoints() { return totalPoints; }
+
 
    public boolean setLastName(String last)
    {
@@ -116,6 +123,7 @@ class Student
       return true;
    }
 
+
    public boolean setFirstName(String first)
    {
       if ( !validString(first) )
@@ -123,6 +131,7 @@ class Student
       firstName = first;
       return true;
    }
+
 
    public boolean setPoints(int pts)
    {
@@ -132,10 +141,12 @@ class Student
       return true;
    }
 
+
    // could be an instance method and, if so, would take one parameter
    public static int compareTwoStudents( Student firstStud, Student secondStud )
    {
       int result = ZERO;
+
 
       if (sortKey == SORT_BY_LAST)
          result = firstStud.lastName.compareToIgnoreCase(secondStud.lastName);
@@ -150,9 +161,11 @@ class Student
       return result;
    }
 
+
    public String toString()
    {
       String resultString;
+
 
       resultString = " "+ lastName 
          + ", " + firstName
@@ -162,12 +175,14 @@ class Student
       return resultString;
    }
 
+
    private static boolean validString( String testStr )
    {
       if (testStr != null && Character.isLetter(testStr.charAt(0)))
          return true;
       return false;
    }
+
 
    private static boolean validPoints( int testPoints )
    {
@@ -192,6 +207,7 @@ class Student
    }
 }
 
+
 class StudentArrayUtilities
 {
    
@@ -205,6 +221,7 @@ class StudentArrayUtilities
    {
       String output = "";
 
+
       // build the output string from the individual Students:
       for (int k = 0; k < data.length; k++)
          output += " "+ data[k].toString();
@@ -212,11 +229,13 @@ class StudentArrayUtilities
       return output;
    }
 
+
    // returns true if a modification was made to the array
    private static boolean floatLargestToTop(Student[] data, int top)
    {
       boolean changed = false;
       Student temp;
+
 
       // compare with client call to see where the loop stops
       for (int k = 0; k < top; k++)
@@ -257,6 +276,7 @@ class StudentArrayUtilities
       return medianvalue;
    }
 
+
    // public call-able arraySort() - assumes Student class has a compareTo()
    public static void arraySort(Student[] array)
    {
@@ -267,15 +287,16 @@ class StudentArrayUtilities
    }
 }
 
+
 Before: 
   huynh, holly points: 33
-  mehraban, trixie points: 875
-  ferguson, mia points: 925
-  martinez, marina points: 900
-  stitt, anna points: 999
-  cirit, dilara points: 754
-  robert, christina points: 0
-  prokopakis, kira points: 247
+  mehraban, kristen points: 875
+  ferguson, jen points: 925
+  harrison, marina points: 900
+  mcgregor, anna points: 999
+  swift, wendy points: 754
+  johnson, christina points: 0
+  smith, kira points: 247
   itabashi, mina points: 122
   zz-error, alexis points: 321
   ly, jessica points: 84
@@ -285,63 +306,72 @@ Before:
   glausi, julia points: 295
   cabrera, alyssa points: 254
 
+
 By default: 
   cabrera, alyssa points: 254
-  cirit, dilara points: 754
-  ferguson, mia points: 925
+  swift, wendy points: 754
+  ferguson, jen points: 925
   glausi, julia points: 295
   graf, gwendolyn points: 474
   huynh, holly points: 33
   itabashi, mina points: 122
   ly, jessica points: 84
   maningding, robin points: 432
-  martinez, marina points: 900
-  mehraban, trixie points: 875
-  prokopakis, kira points: 247
-  robert, christina points: 0
-  stitt, anna points: 999
+  harrison, marina points: 900
+  mehraban, kristen points: 875
+  smith, kira points: 247
+  johnson, christina points: 0
+  mcgregor, anna points: 999
   wang, jessica points: 265
   zz-error, alexis points: 321
+
 
 By first: 
   zz-error, alexis points: 321
   cabrera, alyssa points: 254
-  stitt, anna points: 999
-  robert, christina points: 0
-  cirit, dilara points: 754
+  mcgregor, anna points: 999
+  johnson, christina points: 0
+  swift, wendy points: 754
   graf, gwendolyn points: 474
   huynh, holly points: 33
   ly, jessica points: 84
   wang, jessica points: 265
   glausi, julia points: 295
-  prokopakis, kira points: 247
-  martinez, marina points: 900
-  ferguson, mia points: 925
+  smith, kira points: 247
+  harrison, marina points: 900
+  ferguson, jen points: 925
   itabashi, mina points: 122
   maningding, robin points: 432
-  mehraban, trixie points: 875
+  mehraban, kristen points: 875
+
 
 By points: 
-  robert, christina points: 0
+  johnson, christina points: 0
   huynh, holly points: 33
   ly, jessica points: 84
   itabashi, mina points: 122
-  prokopakis, kira points: 247
+  smith, kira points: 247
   cabrera, alyssa points: 254
   wang, jessica points: 265
   glausi, julia points: 295
   zz-error, alexis points: 321
   maningding, robin points: 432
   graf, gwendolyn points: 474
-  cirit, dilara points: 754
-  mehraban, trixie points: 875
-  martinez, marina points: 900
-  ferguson, mia points: 925
-  stitt, anna points: 999
+  swift, wendy points: 754
+  mehraban, kristen points: 875
+  harrison, marina points: 900
+  ferguson, jen points: 925
+  mcgregor, anna points: 999
+
 
 Median of myFemaleStudents: 308.0
 Sort key preserved.
 Median of myMaleStudents: 777.0
 Median of myAide: 999.0
 Median of empty: 0.0
+
+
+
+
+
 
