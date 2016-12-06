@@ -1,0 +1,189 @@
+import java.util.*;
+import java.lang.Math;
+
+public class Foothill
+{   
+   public static void main(String[] args)
+   {
+      TripleString tripleString1, tripleString2, tripleString3, tripleString4;
+      
+      tripleString1 = new TripleString();
+      tripleString2 = new TripleString();
+      tripleString3 = new TripleString("this", "", "a test");
+      tripleString4 = new TripleString("really", "hope", "it works");
+      
+      System.out.println("tripleString1 lines:" + tripleString1.toString()
+         + "\n\ntripleString2 lines:" + tripleString2.toString()
+         + "\n\ntripleString3 lines:" + tripleString3.toString()
+         + "\n\ntripleString4 lines:" + tripleString4.toString() + "\n");
+      
+      tripleString1.setString1("snake,");
+      tripleString2.setString3("you have to take down sahelanthropus");
+      tripleString3.setString2("is still");
+      tripleString4.setString3("it still works");
+      
+      System.out.println("tripleString1 lines:" + tripleString1.toString()
+         + "\n\ntripleString2 lines:" + tripleString2.toString()
+         + "\n\ntripleString3 lines:" + tripleString3.toString()
+         + "\n\ntripleString4 lines:" + tripleString4.toString()+ "\n");
+      
+      if (tripleString1.setString1("that") == true)
+         System.out.println("Successful call to set first line of "
+         + "tripleString1");
+      else
+         System.out.println("Call failed to set first line of "
+         + "tripleString1");
+      
+      if (tripleString1.setString2("") == true)
+         System.out.println("Successful call to set second line of "
+         + "tripleString1");
+      else
+         System.out.println("Call failed to set second line of "
+         + "tripleString1");
+      
+      System.out.println("First line of tripleString1: " 
+         + tripleString1.getString1());
+      
+      System.out.println("Second line of tripleString1: " 
+            + tripleString1.getString2());
+   }
+}
+      
+class TripleString
+{
+   //private class instance members
+   private String string1, string2, string3;
+   
+   //public class static constants
+   public static final int MIN_LEN = 1;
+   public static final int MAX_LEN = 50;
+   public static final String DEFAULT_STRING = "(undefined)";
+   
+   //default constructor
+   TripleString()
+   {
+      string1 = DEFAULT_STRING;
+      string2 = DEFAULT_STRING;
+      string3 = DEFAULT_STRING;
+   }
+   
+   //two-parameter constructor
+   TripleString(String str1, String str2, String str3)
+   {
+    if (!validString(str1))   
+      string1 = DEFAULT_STRING;
+    else
+       string1 = str1;
+    if (!validString(str2))
+       string2 = DEFAULT_STRING;
+    else
+       string2 = str2;
+    if (!validString(str3))
+       string3 = DEFAULT_STRING;
+    else
+       string3 = str3;
+   }
+   
+   //private static helper method
+   private static boolean validString (String str)
+   {
+      if (str != null && (str.length() >= MIN_LEN && str.length() <= MAX_LEN))
+         return true;
+      return false;
+   }
+   
+   //all-in-one accessor method
+   public String toString()
+   {
+      return "\nLine 1: " + getString1() + "\nLine 2: " + getString2()
+         + "\nLine 3: " + getString3();
+   }
+   
+   //mutator methods
+   public boolean setString1(String stringContent)
+   {
+      if (!validString(stringContent))
+         return false;
+      string1 = stringContent;
+      return true;
+   }
+   
+   public boolean setString2(String stringContent)
+   {
+      if (!validString(stringContent))
+         return false;
+      string2 = stringContent;
+      return true;
+   }
+   
+   public boolean setString3(String stringContent)
+   {
+      if (!validString(stringContent))
+         return false;
+      string3 = stringContent;
+      return true;
+   }
+   
+   //accessor methods
+   public String getString1()
+   {
+      return string1;
+   }
+   
+   public String getString2()
+   {
+      return string2;
+   }
+   
+   public String getString3()
+   {
+      return string3;
+   }
+}
+
+Run:
+tripleString1 lines:
+Line 1: (undefined)
+Line 2: (undefined)
+Line 3: (undefined)
+
+tripleString2 lines:
+Line 1: (undefined)
+Line 2: (undefined)
+Line 3: (undefined)
+
+tripleString3 lines:
+Line 1: this
+Line 2: (undefined)
+Line 3: a test
+
+tripleString4 lines:
+Line 1: really
+Line 2: hope
+Line 3: it works
+
+tripleString1 lines:
+Line 1: snake,
+Line 2: (undefined)
+Line 3: (undefined)
+
+tripleString2 lines:
+Line 1: (undefined)
+Line 2: (undefined)
+Line 3: you have to take down sahelanthropus
+
+tripleString3 lines:
+Line 1: this
+Line 2: is still
+Line 3: a test
+
+tripleString4 lines:
+Line 1: really
+Line 2: hope
+Line 3: it still works
+
+Successful call to set first line of tripleString1
+Call failed to set second line of tripleString1
+First line of tripleString1: that
+Second line of tripleString1: (undefined)
+

@@ -1,0 +1,214 @@
+import java.util.Scanner;
+
+public class Foothill
+{   
+   
+   static final int THE_STRING_MIN_SIZE = 4;
+   
+   public static void main (String[] args)
+   {
+      char keyChar;
+      String targetString, answer;
+      int intAnswer;
+      
+      keyChar = getKeyCharacter();
+      targetString = getString();
+      
+      answer = maskCharacter(targetString, keyChar);
+      System.out.println("String with " + "'" + keyChar + "'"
+         + " masked: " + answer);
+      
+      answer = removeCharacter(targetString, keyChar);
+      System.out.println("String with " + "'" + keyChar + "'"
+         + " removed: " + answer);
+      
+      intAnswer = countKey(targetString, keyChar);
+      System.out.println("# " + keyChar + "s: " + intAnswer);
+      
+      answer = reverseString(targetString);
+      System.out.println("String reversed: " + answer);
+      
+      answer = switchCase(targetString, keyChar);
+      System.out.println("String with key character case switched: " + answer);
+   }
+   static char getKeyCharacter()
+   {
+      Scanner input = new Scanner(System.in);
+      String keyCharacterStr;
+      String gkcPrompt = "Please enter a SINGLE character to act as key.";
+      char keyCharacter;
+      int length;
+      
+      keyCharacter = ' ';//initializing to make program logic work
+      length = 0;
+      
+      while (length != 1)
+      {
+         System.out.println(gkcPrompt);
+         keyCharacterStr = input.nextLine();
+         keyCharacter = keyCharacterStr.charAt(0);
+         length = keyCharacterStr.length();
+      }
+      return keyCharacter;
+   }
+   
+   static String getString()
+   {
+      
+      Scanner input = new Scanner(System.in);
+      String theString;
+      String gsPrompt = "Please enter a phrase or sentence >= 4 characters:";
+      int length;
+      
+      theString = "";
+      length = 0;
+      
+      while ( length < THE_STRING_MIN_SIZE )
+      {
+         System.out.println(gsPrompt);
+         theString = input.nextLine();
+         length = theString.length();
+      }
+      return theString;
+      
+   }
+   static String maskCharacter(String theString, char keyCharacter)
+   {
+      int length;
+      char letter;
+      String newString;
+      
+      newString = "";
+      length = theString.length();
+            
+      for (int i = 0; i < length ; i++ )
+      {
+         letter = theString.charAt(i);
+         if (letter == keyCharacter )
+         {
+            newString += "$";
+            continue;
+         }
+         newString += letter;
+      }
+      return newString;
+   }
+   static String removeCharacter(String theString, char keyCharacter)
+   {
+      int length;
+      char letter;
+      String newString;
+      
+      newString = "";
+      length = theString.length();
+      
+      for (int i = 0; i < length ; i++ )
+      {
+         letter = theString.charAt(i);
+         if (letter == keyCharacter )
+            continue;
+         newString += letter;
+      }
+      return newString;
+   }
+   static int countKey(String theString, char keyCharacter)
+   {
+      int length, keyCount;
+      char letter;
+      
+      length = theString.length();
+      keyCount = 0;
+
+      for (int i = 0; i < length ; i++ )
+      {
+         letter = theString.charAt(i);
+         if (letter == keyCharacter )
+            keyCount ++;
+      }
+      return keyCount;
+   }
+   static String reverseString(String theString)
+   {
+      int length;
+      char letter;
+      String newString;
+      
+      newString = "";
+      length = theString.length();
+      
+      length--;//because of zero-indexing
+      for (int i = length; i >= 0; i-- )
+      {
+         letter = theString.charAt(i);
+         newString += letter;
+      }
+      return newString;
+   }
+   static String switchCase(String theString, char keyCharacter)
+   {
+      int length;
+      char letter;
+      String newString;
+      
+      newString = "";
+      length = theString.length();
+
+      for (int i = 0; i < length ; i++ )
+      {
+         letter = theString.charAt(i);
+         if (letter == keyCharacter && (Character.isLowerCase(letter)))
+            letter = Character.toUpperCase(letter);
+         else if (letter == keyCharacter && (Character.isUpperCase(letter)))
+            letter = Character.toLowerCase(letter);
+         newString += letter;
+      }
+      return newString;
+   }
+}
+
+Run #1:
+
+Please enter a SINGLE character to act as key.
+1v
+Please enter a SINGLE character to act as key.
+##
+Please enter a SINGLE character to act as key.
+^
+Please enter a phrase or sentence >= 4 characters:
+haha ^_^ 123
+String with '^' masked: haha $_$ 123
+String with '^' removed: haha _ 123
+# ^s: 2
+String reversed: 321 ^_^ ahah
+String with key character case switched: haha ^_^ 123
+
+Run #2:
+
+Please enter a SINGLE character to act as key.
+$
+Please enter a phrase or sentence >= 4 characters:
+$270 i$ too much to pay for a lock$mith
+String with '$' masked: $270 i$ too much to pay for a lock$mith
+String with '$' removed: 270 i too much to pay for a lockmith
+# $s: 3
+String reversed: htim$kcol a rof yap ot hcum oot $i 072$
+String with key character case switched: $270 i$ too much to pay for a lock$mith
+
+Run #3:
+String with 'a' masked: 11 -- det$rtr$ted -- 11
+String with 'a' removed: 11 -- detrtrted -- 11
+# as: 2
+String reversed: 11 -- detartrated -- 11
+String with key character case switched: 11 -- detArtrAted -- 11
+
+Run #4:
+Please enter a SINGLE character to act as key.
+E
+Please enter a phrase or sentence >= 4 characters:
+Ev@, c@n I st@b b@ts 1n @ c@ve? 
+String with 'E' masked: $v@, c@n I st@b b@ts 1n @ c@ve? 
+String with 'E' removed: v@, c@n I st@b b@ts 1n @ c@ve? 
+# Es: 1
+String reversed:  ?ev@c @ n1 st@b b@ts I n@c ,@vE
+String with key character case switched: ev@, c@n I st@b b@ts 1n @ c@ve? 
+

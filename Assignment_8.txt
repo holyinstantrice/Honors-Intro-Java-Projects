@@ -1,0 +1,234 @@
+import java.util.*;
+import java.lang.Math;
+
+public class Foothill
+{  
+   public static void main (String[] args)
+   {
+      
+   DateProfile applicant1 = new DateProfile('M', 'F', 10, 3, "Eddie Zhang");
+   DateProfile applicant2 = new DateProfile('F', 'M', 3, 10, "Trixie");
+   DateProfile applicant3 = new DateProfile('F', 'M', 5, 5, "Mia");
+   DateProfile applicant4 = new DateProfile('M', 'F', 7, 5, "Cary");
+   DateProfile applicant5 = new DateProfile();//checking defaults
+   
+   displayTwoProfiles(applicant1, applicant1);
+   displayTwoProfiles(applicant1, applicant2);
+   displayTwoProfiles(applicant1, applicant3);
+   displayTwoProfiles(applicant1, applicant4);
+   displayTwoProfiles(applicant2, applicant2);
+   displayTwoProfiles(applicant2, applicant1);
+   displayTwoProfiles(applicant2, applicant3);
+   displayTwoProfiles(applicant2, applicant4);
+   displayTwoProfiles(applicant3, applicant1);
+   displayTwoProfiles(applicant3, applicant2);
+   displayTwoProfiles(applicant3, applicant3);
+   displayTwoProfiles(applicant3, applicant4);
+   displayTwoProfiles(applicant4, applicant1);
+   displayTwoProfiles(applicant4, applicant2);
+   displayTwoProfiles(applicant4, applicant3);
+   displayTwoProfiles(applicant4, applicant4);
+   displayTwoProfiles(applicant1, applicant5);//checking defaults
+   
+   }
+   public static void displayTwoProfiles(DateProfile profile1,
+      DateProfile profile2)
+   {
+      System.out.println("Fit between " + profile1.getName() + " and " +
+         profile2.getName() + "\n" + profile1.fitValue(profile2));
+   }
+}
+
+class DateProfile
+{
+   private char gender, searchGender;
+   private int romance, finance;
+   private String name;
+   
+   public static char MALE = 'M';
+   public static char FEMALE = 'F';
+   public static int MIN_ROMANCE = 1;
+   public static int MAX_ROMANCE = 10;
+   public static int MIN_FINANCE = 1;
+   public static int MAX_FINANCE = 10;
+   public static int MIN_NAME = 1;
+   public static int MAX_NAME = 40;
+   public static char DEFAULT_GEND = 'F';
+   public static char DEFAULT_SEARCH_GEND = 'M';
+   public static int DEFAULT_ROMANCE = 1;
+   public static int DEFAULT_FINANCE = 1;
+   public static String DEFAULT_NAME = "undefined";
+   public static double AVERAGE_FIT_DIVIDER = 2.0;
+   public static double COMPATIBLE_GENDER = 1.0;
+   public static double INCOMPATIBLE_GENDER = 0.0;
+   public static double SCORE_INVERTER = 1.0;
+   public static double SCORE_DIVIDE_BY_TEN = 10.0;
+   
+   DateProfile()
+   {
+      setDefaults();
+   }
+   
+   DateProfile(char gen, char searchGen, int rom, int fin, String nam)
+   {
+      setAll(gen, searchGen, rom, fin, nam);
+         
+   }
+   
+   //accessor
+   public char getGender()
+   {
+      return gender;
+   }
+   public int getSearchGender()
+   {
+      return searchGender;
+   }
+   public int getRomance()
+   {
+      return romance;
+   }
+   public int getFinance()
+   {
+      return finance;
+   }
+   public String getName()
+   {
+      return name;
+   }
+   //mutator
+   public boolean setGender(char gen)
+   {
+      if (gen == MALE || gen == FEMALE)
+      {
+         gender = gen;
+         return true;
+      }
+      else
+         return false;
+   }
+   public boolean setSearchGender(char searchGen)
+   {
+      if (searchGen == MALE || searchGen == FEMALE)
+      {
+         searchGender = searchGen;
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+   }
+   public boolean setRomance(int rom)
+   {
+      if (rom < MIN_ROMANCE || rom > MAX_ROMANCE)
+         return false;
+      romance = rom;
+      return true;
+   }
+   public boolean setFinance(int fin)
+   {
+      if (fin < MIN_FINANCE || fin > MAX_FINANCE)
+         return false;
+      finance = fin;
+      return true;
+   }
+   public boolean setName(String nam)
+   {
+      if (nam.length() < MIN_NAME || nam.length() > MAX_NAME)
+         return false;
+      name = nam;
+      return true;
+   }
+   public void setAll(char gen, char searchGen, int rom, int fin, String nam)
+   {
+      setGender(gen);
+      setSearchGender(searchGen);
+      setRomance(rom);
+      setFinance(fin);
+      setName(nam);
+   }
+   public void setDefaults()
+   {
+      setGender(DEFAULT_GEND);
+      setSearchGender(DEFAULT_SEARCH_GEND);
+      setRomance(DEFAULT_ROMANCE);
+      setFinance(DEFAULT_FINANCE);
+      setName(DEFAULT_NAME);
+   }
+   //methods
+   public double fitValue(DateProfile partner)
+   {
+      double fitScore;
+      double averageFit;
+      
+      averageFit = (determineRomanceFit(partner)
+         + determineFinanceFit(partner)) / AVERAGE_FIT_DIVIDER;
+      
+      fitScore = determineGenderFit(partner) * averageFit;
+      return fitScore;
+   }
+   private double determineGenderFit(DateProfile partner)
+   {
+      if (this.searchGender == partner.gender
+         && this.gender == partner.searchGender)
+      {
+         return COMPATIBLE_GENDER;
+      }
+      return INCOMPATIBLE_GENDER;
+   }
+   private double determineRomanceFit(DateProfile partner)
+   {
+      double romanceScore;
+      
+      romanceScore = SCORE_INVERTER - Math.abs((this.romance - partner.romance)
+         / SCORE_DIVIDE_BY_TEN);
+      return romanceScore;
+   }
+   private double determineFinanceFit(DateProfile partner)
+   {
+      double financeScore;
+      
+      financeScore = SCORE_INVERTER - Math.abs((this.finance - partner.finance)
+         / SCORE_DIVIDE_BY_TEN);
+      return financeScore;
+   }
+}
+
+RUN----------
+
+Fit between Eddie Zhang and Eddie Zhang
+0.0
+Fit between Eddie Zhang and Trixie
+0.30000000000000004
+Fit between Eddie Zhang and Mia
+0.65
+Fit between Eddie Zhang and Cary
+0.0
+Fit between Trixie and Trixie
+0.0
+Fit between Trixie and Eddie Zhang
+0.30000000000000004
+Fit between Trixie and Mia
+0.0
+Fit between Trixie and Cary
+0.55
+Fit between Mia and Eddie Zhang
+0.65
+Fit between Mia and Trixie
+0.0
+Fit between Mia and Mia
+0.0
+Fit between Mia and Cary
+0.9
+Fit between Cary and Eddie Zhang
+0.0
+Fit between Cary and Trixie
+0.55
+Fit between Cary and Mia
+0.9
+Fit between Cary and Cary
+0.0
+Fit between Eddie Zhang and undefined
+0.45
+

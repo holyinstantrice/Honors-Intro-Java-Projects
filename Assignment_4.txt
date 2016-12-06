@@ -1,0 +1,262 @@
+import java.util.Scanner;
+
+public class Foothill
+{
+   static final int MIN_NUM_YOGURTS = 1;
+   static final int MAX_NUM_YOGURTS = 1000;
+   static final int MIN_NUM_FREE_YOGURTS = 1;
+   static final int EXCHANGE_RATE = 7;
+   
+   static final String INDENT = "   ";
+   static final String SEPARATOR = "\n";
+         
+   public static void main (String[] args)
+   {
+      char purchaseChoice, useCredits;
+      String purchaseChoiceStr, useCreditsStr, numYogurtsStr,
+         numFreeYogurtsStr;
+      boolean useStamps;
+      int stamps, numYogurts, numFreeYogurtsQual, numFreeYogurts,
+         numCreditsUsed;
+      Scanner inputStream = new Scanner(System.in);
+      
+      purchaseChoice = 'P';//initialize to p so while loop begins
+      stamps = 0;
+      
+      while ( purchaseChoice == 'P' || purchaseChoice == 'p' )
+      {
+         System.out.println( "Menu:" + SEPARATOR + INDENT +
+            "P (process Purchase)" + SEPARATOR + INDENT + "S (Shut down)" );
+         purchaseChoiceStr = inputStream.nextLine();
+         purchaseChoice = purchaseChoiceStr.charAt(0);
+         System.out.println( "Your Choice: " + purchaseChoiceStr + SEPARATOR );
+         if ( purchaseChoice == 'p' || purchaseChoice == 'P');
+         else if ( purchaseChoice == 's' || purchaseChoice == 'S' )
+         {
+            System.out.println( "Have a nice day." + SEPARATOR );
+            return;
+         }
+         else
+         {
+            System.out.println( "Please choose P or S." + SEPARATOR );
+            purchaseChoice = 'p'; //re-initialize to p to restart the loop
+            continue;
+         }
+         if ( stamps >= EXCHANGE_RATE )//check if they qualify for free yogurt
+         {
+            numFreeYogurtsQual = stamps / EXCHANGE_RATE;
+            System.out.println( "You qualify for " + numFreeYogurtsQual
+               + " free yogurt(s). Would you like to use any of"
+               + " your credits?" + " (Y or N)" );
+            useCreditsStr = inputStream.nextLine();
+            useCredits = useCreditsStr.charAt(0);
+            if ( useCredits == 'Y' || useCredits == 'y' )//redeem free yogurts
+            {
+               System.out.println( "How many free yogurt(s) would you like"
+                  + " today?" );
+               numFreeYogurtsStr = inputStream.nextLine();
+               numFreeYogurts = Integer.parseInt(numFreeYogurtsStr);
+               if ( numFreeYogurts < MIN_NUM_FREE_YOGURTS || 
+                  numFreeYogurts > numFreeYogurtsQual )
+               {
+                  System.out.println( "Please choose an amount between " + 
+                     MIN_NUM_FREE_YOGURTS + " and " + numFreeYogurtsQual +
+                     "." + SEPARATOR );
+                  continue;
+               }
+               numCreditsUsed = numFreeYogurts * EXCHANGE_RATE;
+               stamps -= numCreditsUsed;
+               System.out.println( "You have just used " + numCreditsUsed
+                  + " credits and have " + stamps + " stamps left."
+                  + SEPARATOR + "Enjoy your free yogurt." + SEPARATOR);
+               continue;
+            }
+            else if ( useCredits == 'n' || useCredits == 'N' );
+            else
+            {
+               System.out.println( "Error: please enter Y or N" + SEPARATOR );
+               continue;
+            }
+         }
+         System.out.println( "How many yogurt(s) would you like to buy?" );
+         numYogurtsStr = inputStream.nextLine();
+         numYogurts = Integer.parseInt(numYogurtsStr);
+         if ( numYogurts < MIN_NUM_YOGURTS || numYogurts > MAX_NUM_YOGURTS )
+         {
+            System.out.println( "Please choose an amount between " + 
+               MIN_NUM_YOGURTS + " and " + MAX_NUM_YOGURTS + "." + SEPARATOR );
+            continue;
+         }
+         stamps += numYogurts;
+         System.out.println( "You just earned " + numYogurts + " stamps "
+                  + "and have a total of " + stamps + " to use." + SEPARATOR);
+         //}
+      }
+   }
+}
+
+
+
+Run #1:
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+p
+Your Choice: p
+
+How many yogurt(s) would you like to buy?
+20
+You just earned 20 stamps and have a total of 20 to use.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+purchase
+Your Choice: purchase
+
+You qualify for 2 free yogurt(s). Would you like to use any of your credits? (Y or N)
+t
+Error: please enter Y or N
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+P
+Your Choice: P
+
+You qualify for 2 free yogurt(s). Would you like to use any of your credits? (Y or N)
+N
+How many yogurt(s) would you like to buy?
+12
+You just earned 12 stamps and have a total of 32 to use.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+p
+Your Choice: p
+
+You qualify for 4 free yogurt(s). Would you like to use any of your credits? (Y or N)
+N
+How many yogurt(s) would you like to buy?
+3
+You just earned 3 stamps and have a total of 35 to use.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+P
+Your Choice: P
+
+You qualify for 5 free yogurt(s). Would you like to use any of your credits? (Y or N)
+Y
+How many free yogurt(s) would you like today?
+5
+You have just used 35 credits and have 0 stamps left.
+Enjoy your free yogurt.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+p
+Your Choice: p
+
+How many yogurt(s) would you like to buy?
+0
+Please choose an amount between 1 and 1000.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+S
+Your Choice: S
+
+Have a nice day.
+
+Run #2:
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+T
+Your Choice: T
+
+Please choose P or S.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+P
+Your Choice: P
+
+How many yogurt(s) would you like to buy?
+14
+You just earned 14 stamps and have a total of 14 to use.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+P
+Your Choice: P
+
+You qualify for 2 free yogurt(s). Would you like to use any of your credits? (Y or N)
+No
+How many yogurt(s) would you like to buy?
+-14
+Please choose an amount between 1 and 1000.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+P
+Your Choice: P
+
+You qualify for 2 free yogurt(s). Would you like to use any of your credits? (Y or N)
+o
+Error: please enter Y or N
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+Purchase please
+Your Choice: Purchase please
+
+You qualify for 2 free yogurt(s). Would you like to use any of your credits? (Y or N)
+Y
+How many free yogurt(s) would you like today?
+2
+You have just used 14 credits and have 0 stamps left.
+Enjoy your free yogurt.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+P
+Your Choice: P
+
+How many yogurt(s) would you like to buy?
+350
+You just earned 350 stamps and have a total of 350 to use.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+p
+Your Choice: p
+
+You qualify for 50 free yogurt(s). Would you like to use any of your credits? (Y or N)
+Yes
+How many free yogurt(s) would you like today?
+51
+Please choose an amount between 1 and 50.
+
+Menu:
+   P (process Purchase)
+   S (Shut down)
+S
+Your Choice: S
+
+Have a nice day.
+
+

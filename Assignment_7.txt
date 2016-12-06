@@ -1,0 +1,473 @@
+import java.util.*;
+import java.lang.Math;
+
+public class Foothill
+{  
+   public static final int MIN_BET = 0;
+   public static final int MAX_BET = 50;
+   public static final int ZERO = 0;
+   public static final int MAX_CHANCE = 100;
+   public static final int EXPAND_TO_THOUSAND = 1000;
+   public static final int CHANCE_THRESHOLD_BAR = 380;
+   public static final int CHANCE_THRESHOLD_CHERRIES = 780;
+   public static final int CHANCE_THRESHOLD_SPACE = 850;
+   public static final int SINGLE_CHERRY_MULTIPLIER = 5;
+   public static final int DOUBLE_CHERRY_MULTIPLIER = 15;
+   public static final int TRIPLE_CHERRY_MULTIPLIER = 30;
+   public static final int BAR_MULTIPLIER = 50;
+   public static final int SEVEN_MULTIPLIER = 100;
+   public static final int NO_MULTIPLIER = 0;
+   
+   public static void main(String[] args)
+   {
+      int winningAmount, betAmount;
+      TripleString pullString;
+      
+      do
+      {
+         betAmount = getBet();
+         if (betAmount == ZERO)
+         {
+            System.out.println("Thanks for playing.");
+            continue;
+         }
+         pullString = pull();
+         winningAmount = getPayMultiplier(pullString) * betAmount;
+         display(pullString, winningAmount);
+      }
+      while (betAmount != ZERO);
+   }
+   
+   public static int getBet()
+   {
+      String betStr;
+      int bet;
+      Scanner input = new Scanner(System.in);  
+    
+      do
+      {
+         System.out.println("How much would you like to bet (1 - 50) or "
+            + "0 to quit?");
+         betStr = input.nextLine();
+         bet = Integer.parseInt(betStr);
+      }
+      while (bet < MIN_BET || bet > MAX_BET);
+       
+      return bet;
+   }
+   
+   public static TripleString pull()
+   {
+      TripleString pullString = new TripleString();
+      
+      pullString.setString1(randString());
+      pullString.setString2(randString());
+      pullString.setString3(randString());
+      
+      return pullString;
+   }
+   
+   private static String randString()
+   {
+      double probabilityGenerator;
+      int chance;
+      
+      probabilityGenerator = Math.random() * EXPAND_TO_THOUSAND;  
+      chance = (int) (probabilityGenerator);
+      
+      if (chance < CHANCE_THRESHOLD_BAR)
+         return "BAR";
+      else if (chance < CHANCE_THRESHOLD_CHERRIES)
+         return "cherries";
+      else if (chance < CHANCE_THRESHOLD_SPACE)
+         return "space";
+      else
+         return "7";
+   }
+   
+   public static int getPayMultiplier (TripleString thePull)
+   {
+      if (thePull.getString1() == "cherries" 
+         && thePull.getString2() != "cherries")
+      {
+         return SINGLE_CHERRY_MULTIPLIER;
+      }
+      else if (thePull.getString1() == "cherries" 
+         && thePull.getString2() == "cherries" 
+         && thePull.getString3() != "cherries")
+      {
+         return DOUBLE_CHERRY_MULTIPLIER;
+      }
+      else if (thePull.getString1() == "cherries" 
+         && thePull.getString2() == "cherries" 
+         && thePull.getString3() == "cherries")
+      {
+         return TRIPLE_CHERRY_MULTIPLIER;
+      }
+      else if (thePull.getString1() == "BAR" 
+         && thePull.getString2() == "BAR" 
+         && thePull.getString3() == "BAR")
+      {
+         return BAR_MULTIPLIER;
+      }
+      else if (thePull.getString1() == "7" 
+         && thePull.getString2() == "7" 
+         && thePull.getString3() == "7")
+      {
+         return SEVEN_MULTIPLIER;
+      }
+      else
+         return 0;
+   }
+   
+   public static void display (TripleString thePull, int winnings)
+   {
+
+      System.out.println("whirrrrrr... and your pull is...");
+      System.out.println(thePull.toString());
+      if (getPayMultiplier(thePull) == NO_MULTIPLIER)
+         System.out.println("Sorry -- you lost" + '\n');
+      else
+         System.out.println("Congratulations, you won $" + winnings + '\n');
+   }
+}
+      
+class TripleString
+{
+   //private class instance members
+   private String string1, string2, string3;
+   
+   //public class static constants
+   public static final int MIN_LEN = 1;
+   public static final int MAX_LEN = 50;
+   public static final String DEFAULT_STRING = "(undefined)";
+   
+   //default constructor
+   TripleString()
+   {
+      string1 = DEFAULT_STRING;
+      string2 = DEFAULT_STRING;
+      string3 = DEFAULT_STRING;
+   }
+   
+   //two-parameter constructor
+   TripleString(String str1, String str2, String str3)
+   {
+      if (!setString1(str1))
+         str1 = DEFAULT_STRING;
+      if (!setString2(str2))
+         str2 = DEFAULT_STRING;
+      if (!setString3(str3))
+         str3 = DEFAULT_STRING;
+   }
+   
+   //private static helper method
+   private static boolean validString (String str)
+   {
+      if (str != null && (str.length() >= MIN_LEN && str.length() <= MAX_LEN))
+         return true;
+      return false;
+   }
+   
+   //all-in-one accessor method
+   public String toString()
+   {
+      String fullString;
+      fullString = string1 + " " + string2 + " " + string3; 
+      return fullString;
+   }
+   
+   //mutator methods
+   public boolean setString1(String stringContent)
+   {
+      if (!validString(stringContent))//test for valid string
+         return false;
+      string1 = stringContent;
+      return true;
+   }
+   
+   public boolean setString2(String stringContent)
+   {
+      if (!validString(stringContent))//test for valid string
+         return false;
+      string2 = stringContent;
+      return true;
+   }
+   
+   public boolean setString3(String stringContent)
+   {
+      if (!validString(stringContent))//test for valid string
+         return false;
+      string3 = stringContent;
+      return true;
+   }
+   
+   //accessor methods
+   public String getString1()
+   {
+      return string1;
+   }
+   
+   public String getString2()
+   {
+      return string2;
+   }
+   
+   public String getString3()
+   {
+      return string3;
+   }
+}
+
+
+
+I got a pull of all BARs in pull 28 and a pull of all cherries in pulls 20 and 35 (in bold)
+
+How much would you like to bet (1 - 50) or 0 to quit?
+-1
+How much would you like to bet (1 - 50) or 0 to quit?
+53
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+7 7 BAR
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+BAR BAR 7
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+BAR BAR space
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+space BAR cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+cherries BAR cherries
+Congratulations, you won $15
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+BAR cherries cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+cherries 7 cherries
+Congratulations, you won $15
+
+How much would you like to bet (1 - 50) or 0 to quit?
+3
+whirrrrrr... and your pull is...
+BAR BAR space
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+1
+whirrrrrr... and your pull is...
+BAR 7 cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+1
+whirrrrrr... and your pull is...
+7 space cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+1
+whirrrrrr... and your pull is...
+BAR BAR cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+48
+whirrrrrr... and your pull is...
+BAR BAR 7
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+48
+whirrrrrr... and your pull is...
+cherries BAR BAR
+Congratulations, you won $240
+
+How much would you like to bet (1 - 50) or 0 to quit?
+48
+whirrrrrr... and your pull is...
+cherries BAR cherries
+Congratulations, you won $240
+
+How much would you like to bet (1 - 50) or 0 to quit?
+4
+whirrrrrr... and your pull is...
+7 cherries space
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+4
+whirrrrrr... and your pull is...
+BAR BAR 7
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+4
+whirrrrrr... and your pull is...
+cherries BAR BAR
+Congratulations, you won $20
+
+How much would you like to bet (1 - 50) or 0 to quit?
+4
+whirrrrrr... and your pull is...
+cherries cherries cherries
+Congratulations, you won $120
+
+How much would you like to bet (1 - 50) or 0 to quit?
+4
+whirrrrrr... and your pull is...
+BAR cherries cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+4
+whirrrrrr... and your pull is...
+7 cherries 7
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+6
+whirrrrrr... and your pull is...
+7 space BAR
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+6
+whirrrrrr... and your pull is...
+BAR BAR cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+6
+whirrrrrr... and your pull is...
+7 BAR space
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+6
+whirrrrrr... and your pull is...
+BAR cherries 7
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+6
+whirrrrrr... and your pull is...
+cherries BAR cherries
+Congratulations, you won $30
+
+How much would you like to bet (1 - 50) or 0 to quit?
+6
+whirrrrrr... and your pull is...
+BAR BAR BAR
+Congratulations, you won $300
+
+How much would you like to bet (1 - 50) or 0 to quit?
+5
+whirrrrrr... and your pull is...
+cherries cherries BAR
+Congratulations, you won $75
+
+How much would you like to bet (1 - 50) or 0 to quit?
+5
+whirrrrrr... and your pull is...
+BAR space cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+5
+whirrrrrr... and your pull is...
+BAR BAR BAR
+Congratulations, you won $250
+
+How much would you like to bet (1 - 50) or 0 to quit?
+5
+whirrrrrr... and your pull is...
+BAR cherries cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+5
+whirrrrrr... and your pull is...
+BAR cherries cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+5
+whirrrrrr... and your pull is...
+cherries BAR cherries
+Congratulations, you won $25
+
+How much would you like to bet (1 - 50) or 0 to quit?
+50
+whirrrrrr... and your pull is...
+BAR 7 BAR
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+50
+whirrrrrr... and your pull is...
+cherries BAR BAR
+Congratulations, you won $250
+
+How much would you like to bet (1 - 50) or 0 to quit?
+50
+whirrrrrr... and your pull is...
+BAR BAR space
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+50
+whirrrrrr... and your pull is...
+cherries cherries cherries
+Congratulations, you won $1500
+
+How much would you like to bet (1 - 50) or 0 to quit?
+50
+whirrrrrr... and your pull is...
+cherries 7 BAR
+Congratulations, you won $250
+
+How much would you like to bet (1 - 50) or 0 to quit?
+50
+whirrrrrr... and your pull is...
+cherries BAR space
+Congratulations, you won $250
+
+How much would you like to bet (1 - 50) or 0 to quit?
+49
+whirrrrrr... and your pull is...
+cherries space space
+Congratulations, you won $245
+
+How much would you like to bet (1 - 50) or 0 to quit?
+49
+whirrrrrr... and your pull is...
+7 7 cherries
+Sorry -- you lost
+
+How much would you like to bet (1 - 50) or 0 to quit?
+0
+Thanks for playing.
+

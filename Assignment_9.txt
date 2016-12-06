@@ -1,0 +1,347 @@
+import javax.swing.*;
+
+public class Foothill
+{
+   public static void main (String[] args)
+   {
+      Student[] myFemaleStudents = { new Student("huynh","holly", 33), 
+         new Student("mehraban","trixie", 875),
+         new Student("ferguson","mia", 925), 
+         new Student("martinez","marina", 900),
+         new Student("stitt","anna", 999), 
+         new Student("cirit","dilara", 754),
+         new Student("robert","christina", 8645), 
+         new Student("prokopakis","kira", 247),
+         new Student("itabashi","mina", 122), 
+         new Student("4ziedzich","alexis", 321),
+         new Student("ly","jessica", 84), 
+         new Student("wang","jessica", 265),
+         new Student("graf","gwendolyn", 474), 
+         new Student("maningding","robin", 432),
+         new Student("glausi","julia", 295), 
+         new Student("cabrera","alyssa", 254),
+      };
+
+      Student[] myMaleStudents = { new Student("chester","cariad", 964), 
+            new Student("vu","khoi", 45),
+            new Student("kedrov","jacek", 875), 
+            new Student("wingate","adam", 864),
+            new Student("aminirad","shawn", 920), 
+            new Student("park","sung", 344),
+            new Student("kashyap","yashi", 2240), 
+            new Student("lumetta","mike", 653),
+            new Student("hoke","harris", 964), 
+            new Student("neely","jake", 466),
+            new Student("sariahmed","karim", 912), 
+            new Student("zhang","thomas", 694), 
+            new Student("carpenter","robin", 934),
+            new Student("liu","isaac", 712), 
+            new Student("chung","daniel", 777),
+      };
+      
+      Student[] myAide = {new Student("hoke", "harris", 999)};
+      Student[] empty = {};
+      
+      System.out.println("Before: \n" + 
+         StudentArrayUtilities.toString(myFemaleStudents));
+      StudentArrayUtilities.arraySort(myFemaleStudents);
+      System.out.println("By default: \n" +
+         StudentArrayUtilities.toString(myFemaleStudents));
+      
+      Student.setSortKey(Student.SORT_BY_FIRST);
+      StudentArrayUtilities.arraySort(myFemaleStudents);
+      System.out.println("By first: \n" +
+         StudentArrayUtilities.toString(myFemaleStudents));
+      
+      Student.setSortKey(Student.SORT_BY_POINTS);
+      StudentArrayUtilities.arraySort(myFemaleStudents);
+      System.out.println("By points: \n" +
+         StudentArrayUtilities.toString(myFemaleStudents));
+      
+      Student.setSortKey(Student.SORT_BY_FIRST);
+      System.out.println("Median of myFemaleStudents: " + StudentArrayUtilities
+         .getMedianDestructive(myFemaleStudents));
+      
+      if (Student.getSortKey() == Student.SORT_BY_FIRST)
+         System.out.println("Sort key preserved.");
+      
+      System.out.println("Median of myMaleStudents: " + StudentArrayUtilities
+         .getMedianDestructive(myMaleStudents));
+      
+      System.out.println("Median of myAide: " + StudentArrayUtilities
+         .getMedianDestructive(myAide));
+      
+      System.out.println("Median of empty: " + StudentArrayUtilities
+            .getMedianDestructive(empty));
+      
+   }
+}
+
+class Student
+{
+   private String lastName;
+   private String firstName;
+   private int totalPoints;
+
+   public static final int ZERO = 0;
+   public static final String DEFAULT_NAME = "zz-error";
+   public static final int DEFAULT_POINTS = 0;
+   public static final int MAX_POINTS = 1000;
+   public static final int SORT_BY_FIRST = 88;
+   public static final int SORT_BY_LAST = 98;
+   public static final int SORT_BY_POINTS = 108;
+   
+   private static int sortKey = SORT_BY_LAST;
+
+   // constructor requires parameters - no default supplied
+   public Student( String last, String first, int points)
+   {
+      if ( !setLastName(last) )
+         lastName = DEFAULT_NAME;
+      if ( !setFirstName(first) )
+         firstName = DEFAULT_NAME;
+      if ( !setPoints(points) )
+         totalPoints = DEFAULT_POINTS;   
+   }
+
+   public String getLastName() { return lastName; }
+   public String getFirstName() { return firstName; } 
+   public int getTotalPoints() { return totalPoints; }
+
+   public boolean setLastName(String last)
+   {
+      if ( !validString(last) )
+         return false;
+      lastName = last;
+      return true;
+   }
+
+   public boolean setFirstName(String first)
+   {
+      if ( !validString(first) )
+         return false;
+      firstName = first;
+      return true;
+   }
+
+   public boolean setPoints(int pts)
+   {
+      if ( !validPoints(pts) )
+         return false;
+      totalPoints = pts;
+      return true;
+   }
+
+   // could be an instance method and, if so, would take one parameter
+   public static int compareTwoStudents( Student firstStud, Student secondStud )
+   {
+      int result = ZERO;
+
+      if (sortKey == SORT_BY_LAST)
+         result = firstStud.lastName.compareToIgnoreCase(secondStud.lastName);
+      if (sortKey == SORT_BY_FIRST)
+         result = firstStud.firstName.compareToIgnoreCase(secondStud.firstName);
+      if (sortKey == SORT_BY_POINTS)
+      {
+         result = Integer.compare(firstStud.totalPoints,
+               secondStud.totalPoints);
+      }
+      
+      return result;
+   }
+
+   public String toString()
+   {
+      String resultString;
+
+      resultString = " "+ lastName 
+         + ", " + firstName
+         + " points: " + totalPoints
+         + "\n";
+      
+      return resultString;
+   }
+
+   private static boolean validString( String testStr )
+   {
+      if (testStr != null && Character.isLetter(testStr.charAt(0)))
+         return true;
+      return false;
+   }
+
+   private static boolean validPoints( int testPoints )
+   {
+      if (testPoints >= ZERO && testPoints <= MAX_POINTS)
+         return true;
+      return false;
+   }
+   
+   public static boolean setSortKey(int key)
+   {
+      if (key == SORT_BY_FIRST || key == SORT_BY_LAST || key == SORT_BY_POINTS)
+      {
+         sortKey = key;
+         return true;
+      }
+      return false;
+   }
+   
+   public static int getSortKey()
+   {
+      return sortKey;
+   }
+}
+
+class StudentArrayUtilities
+{
+   
+   public static final int ZERO = 0;
+   public static final int ONE = 1;
+   public static final int TWO = 2;
+   public static final double DOUBLE_ZERO = 0;
+   public static final double DOUBLE_TWO = 2.;
+   
+   public static String toString(Student[] data)
+   {
+      String output = "";
+
+      // build the output string from the individual Students:
+      for (int k = 0; k < data.length; k++)
+         output += " "+ data[k].toString();
+      
+      return output;
+   }
+
+   // returns true if a modification was made to the array
+   private static boolean floatLargestToTop(Student[] data, int top)
+   {
+      boolean changed = false;
+      Student temp;
+
+      // compare with client call to see where the loop stops
+      for (int k = 0; k < top; k++)
+         if ( Student.compareTwoStudents(data[k], data[k+1]) > ZERO )
+         {
+            temp = data[k];
+            data[k] = data[k+1];
+            data[k+1] = temp;
+            changed = true;
+         }
+      return changed;
+   }
+   
+   public static double getMedianDestructive(Student[] someArray)
+   {
+      int median, originalSortKey;
+      double medianvalue;
+      
+      originalSortKey = Student.getSortKey();
+      Student.setSortKey(Student.SORT_BY_POINTS);
+      arraySort(someArray);
+      median = someArray.length / TWO;
+      medianvalue = DOUBLE_ZERO;
+      
+      if (someArray.length == ZERO)
+         return medianvalue;
+      if (someArray.length % TWO == ONE) //if odd number of elements
+      {
+         medianvalue = someArray[median].getTotalPoints();
+      }
+      if (someArray.length % TWO == ZERO) //if even number of elements
+      {
+         medianvalue = (someArray[median - 1].getTotalPoints()
+            + someArray[median].getTotalPoints()) / DOUBLE_TWO;
+      }
+      
+      Student.setSortKey(originalSortKey);
+      return medianvalue;
+   }
+
+   // public call-able arraySort() - assumes Student class has a compareTo()
+   public static void arraySort(Student[] array)
+   {
+      for (int k = 0; k < array.length; k++)
+         // compare with method def to see where inner loop stops
+         if ( !floatLargestToTop(array, array.length-1-k) )
+            return;
+   }
+}
+
+Before: 
+  huynh, holly points: 33
+  mehraban, trixie points: 875
+  ferguson, mia points: 925
+  martinez, marina points: 900
+  stitt, anna points: 999
+  cirit, dilara points: 754
+  robert, christina points: 0
+  prokopakis, kira points: 247
+  itabashi, mina points: 122
+  zz-error, alexis points: 321
+  ly, jessica points: 84
+  wang, jessica points: 265
+  graf, gwendolyn points: 474
+  maningding, robin points: 432
+  glausi, julia points: 295
+  cabrera, alyssa points: 254
+
+By default: 
+  cabrera, alyssa points: 254
+  cirit, dilara points: 754
+  ferguson, mia points: 925
+  glausi, julia points: 295
+  graf, gwendolyn points: 474
+  huynh, holly points: 33
+  itabashi, mina points: 122
+  ly, jessica points: 84
+  maningding, robin points: 432
+  martinez, marina points: 900
+  mehraban, trixie points: 875
+  prokopakis, kira points: 247
+  robert, christina points: 0
+  stitt, anna points: 999
+  wang, jessica points: 265
+  zz-error, alexis points: 321
+
+By first: 
+  zz-error, alexis points: 321
+  cabrera, alyssa points: 254
+  stitt, anna points: 999
+  robert, christina points: 0
+  cirit, dilara points: 754
+  graf, gwendolyn points: 474
+  huynh, holly points: 33
+  ly, jessica points: 84
+  wang, jessica points: 265
+  glausi, julia points: 295
+  prokopakis, kira points: 247
+  martinez, marina points: 900
+  ferguson, mia points: 925
+  itabashi, mina points: 122
+  maningding, robin points: 432
+  mehraban, trixie points: 875
+
+By points: 
+  robert, christina points: 0
+  huynh, holly points: 33
+  ly, jessica points: 84
+  itabashi, mina points: 122
+  prokopakis, kira points: 247
+  cabrera, alyssa points: 254
+  wang, jessica points: 265
+  glausi, julia points: 295
+  zz-error, alexis points: 321
+  maningding, robin points: 432
+  graf, gwendolyn points: 474
+  cirit, dilara points: 754
+  mehraban, trixie points: 875
+  martinez, marina points: 900
+  ferguson, mia points: 925
+  stitt, anna points: 999
+
+Median of myFemaleStudents: 308.0
+Sort key preserved.
+Median of myMaleStudents: 777.0
+Median of myAide: 999.0
+Median of empty: 0.0
+
