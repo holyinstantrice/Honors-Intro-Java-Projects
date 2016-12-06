@@ -1,14 +1,15 @@
 import java.util.*;
 import java.lang.Math;
 
+
 public class Foothill
 {  
    public static void main (String[] args)
    {
       
-   DateProfile applicant1 = new DateProfile('M', 'F', 10, 3, "Eddie Zhang");
-   DateProfile applicant2 = new DateProfile('F', 'M', 3, 10, "Trixie");
-   DateProfile applicant3 = new DateProfile('F', 'M', 5, 5, "Mia");
+   DateProfile applicant1 = new DateProfile('M', 'F', 10, 3, "Frank Yang");
+   DateProfile applicant2 = new DateProfile('F', 'M', 3, 10, "Alyssa");
+   DateProfile applicant3 = new DateProfile('F', 'M', 5, 5, "Kristen");
    DateProfile applicant4 = new DateProfile('M', 'F', 7, 5, "Cary");
    DateProfile applicant5 = new DateProfile();//checking defaults
    
@@ -38,6 +39,7 @@ public class Foothill
          profile2.getName() + "\n" + profile1.fitValue(profile2));
    }
 }
+
 
 class DateProfile
 {
@@ -195,40 +197,45 @@ class DateProfile
    }
 }
 
+
 RUN----------
 
-Fit between Eddie Zhang and Eddie Zhang
+
+Fit between Frank Yang and Frank Yang
 0.0
-Fit between Eddie Zhang and Trixie
+Fit between Frank Yang and Alyssa
 0.30000000000000004
-Fit between Eddie Zhang and Mia
+Fit between Frank Yang and Kristen
 0.65
-Fit between Eddie Zhang and Cary
+Fit between Frank Yang and Cary
 0.0
-Fit between Trixie and Trixie
+Fit between Alyssa and Alyssa
 0.0
-Fit between Trixie and Eddie Zhang
+Fit between Alyssa and Frank Yang
 0.30000000000000004
-Fit between Trixie and Mia
+Fit between Alyssa and Kristen
 0.0
-Fit between Trixie and Cary
+Fit between Alyssa and Cary
 0.55
-Fit between Mia and Eddie Zhang
+Fit between Kristen and Frank Yang
 0.65
-Fit between Mia and Trixie
+Fit between Kristen and Alyssa
 0.0
-Fit between Mia and Mia
+Fit between Kristen and Kristen
 0.0
-Fit between Mia and Cary
+Fit between Kristen and Cary
 0.9
-Fit between Cary and Eddie Zhang
+Fit between Cary and Frank Yang
 0.0
-Fit between Cary and Trixie
+Fit between Cary and Alyssa
 0.55
-Fit between Cary and Mia
+Fit between Cary and Kristen
 0.9
 Fit between Cary and Cary
 0.0
-Fit between Eddie Zhang and undefined
+Fit between Frank Yang and undefined
 0.45
+
+
+
 
