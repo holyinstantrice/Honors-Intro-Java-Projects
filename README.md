@@ -18,3 +18,5 @@ Assignment 8: A calculator that determines the dating compatibility for two pote
 Assignment 9: Practicing basic array sort methods
 
 Assignment 10: More array manipulation methods, including sort and add/delete methods on an array of strings
+
+All files include a sample output at the very end, so you'll have to take that out before they compile.
